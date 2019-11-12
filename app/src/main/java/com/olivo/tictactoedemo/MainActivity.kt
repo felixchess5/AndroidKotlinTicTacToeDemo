@@ -6,6 +6,9 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -49,6 +52,8 @@ class MainActivity : AppCompatActivity() {
             buSelected.setBackgroundResource(R.color.player1color)
             player1.add(cellId)
             activePlayer = 2
+
+            autoPlay()
 
         } else {
             buSelected.text = "O"
@@ -124,7 +129,35 @@ class MainActivity : AppCompatActivity() {
         if(winner > 0) {
             Toast.makeText(this, "Player $winner wins the game", Toast.LENGTH_SHORT).show()
         }
+    }
 
+    fun autoPlay() {
+
+        var emptyCells = ArrayList<Int>()
+        for( cellId in 1..9) {
+            if(!(player1.contains(cellId) || player2.contains(cellId))) {
+                emptyCells.add(cellId)
+            }
+        }
+
+        val r = Random()
+        val randIndex = r.nextInt(emptyCells.size)
+        val cellId = emptyCells[randIndex]
+        var buSelected:Button?
+        buSelected = when(cellId) {
+            1 -> bu11
+            2 -> bu12
+            3 -> bu13
+            4 -> bu21
+            5 -> bu22
+            6 -> bu23
+            7 -> bu31
+            8 -> bu32
+            9 -> bu33
+            else -> {bu11}
+        }
+
+        playGame(cellId, buSelected)
     }
 }
 
